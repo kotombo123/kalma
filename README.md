@@ -123,7 +123,7 @@ Works out of the box via Mailpit (local catcher at http://localhost:8025). Set a
 pnpm lint && pnpm typecheck && pnpm test
 ```
 
-Integration tests (testcontainers) require a running Docker daemon.
+Integration tests (testcontainers) require a running Docker daemon
 
 ## Known issues with `pnpm dev`
 
