@@ -1,0 +1,9 @@
+# Przykład: skopiuj do config/connectors/, żeby włączyć (wymaga systemu „Karty”).
+# Zgłoszenia z systemu antyfraudowego: po jednej wiadomości JSON w linii, po TCP na port 5520.
+connector: karty-antyfraud
+system: Karty
+name: Antyfraud kart (linie JSON po TCP)
+template: socket
+settings:
+  mode: tcp
+  port: 5520

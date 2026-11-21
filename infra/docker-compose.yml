@@ -1,0 +1,170 @@
+# Infra starts by default. App services use the `apps` profile:
+#   docker compose -f infra/docker-compose.yml up -d                 # infra only (dev: run apps with pnpm dev)
+#   docker compose -f infra/docker-compose.yml --profile apps up -d --build   # everything
+name: alerting
+
+x-app: &app
+  build: { context: .., dockerfile: infra/Dockerfile }
+  profiles: [apps]
+  restart: unless-stopped
+  env_file:
+    - path: ../.env
+      required: false
+  environment: &app-env
+    NODE_ENV: production
+    DATABASE_URL: postgres://alerting:alerting@postgres:5432/alerting
+    REDIS_URL: redis://redis:6379
+    KAFKA_BROKERS: redpanda:9092
+    SMTP_HOST: mailpit
+    SMTP_PORT: '1025'
+    API_URL: http://api:3000
+    INGEST_URL: http://ingest:3001
+    DEMO_SYSTEMS_URL: http://demo-systems:3002
+    # Demo stack only. Set JWT_SECRET in .env for anything real.
+    JWT_SECRET: ${JWT_SECRET:-compose-demo-only-secret-change-me}
+  depends_on:
+    postgres: { condition: service_healthy }
+    redis: { condition: service_healthy }
+    redpanda: { condition: service_healthy }
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment: { POSTGRES_USER: alerting, POSTGRES_PASSWORD: alerting, POSTGRES_DB: alerting }
+    ports: ['5432:5432']
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U alerting']
+      interval: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    command: ['redis-server', '--appendonly', 'yes']
+    ports: ['6379:6379']
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 3s
+      retries: 20
+
+  redpanda:
+    image: redpandadata/redpanda:v24.2.7
+    command:
+      - redpanda start
+      - --overprovisioned
+      - --smp 1
+      - --memory 1G
+      - --reserve-memory 0M
+      - --node-id 0
+      - --check=false
+      - --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:19092
+      - --advertise-kafka-addr internal://redpanda:9092,external://localhost:19092
+      - --set redpanda.auto_create_topics_enabled=true
+    ports: ['19092:19092']
+    healthcheck:
+      test: ['CMD-SHELL', "rpk cluster health | grep -E 'Healthy:.+true'"]
+      interval: 5s
+      retries: 30
+
+  redpanda-console:
+    image: redpandadata/console:v2.7.2
+    environment: { KAFKA_BROKERS: redpanda:9092 }
+    ports: ['8080:8080']
+    depends_on: { redpanda: { condition: service_healthy } }
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports: ['1025:1025', '8025:8025']
+    healthcheck:
+      test: ['CMD', '/mailpit', 'readyz']
+      interval: 5s
+      retries: 20
+
+  prometheus:
+    image: prom/prometheus:v2.55.1
+    volumes: ['./prometheus.yml:/etc/prometheus/prometheus.yml:ro']
+    extra_hosts: ['host.docker.internal:host-gateway']
+    ports: ['9090:9090']
+
+  grafana:
+    image: grafana/grafana:11.3.0
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: 'true'
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    ports: ['3003:3000']
+    depends_on: [prometheus]
+
+  migrate:
+    <<: *app
+    restart: 'no'
+    command: ['pnpm', '--filter', '@alerting/db', 'migrate']
+    depends_on: { postgres: { condition: service_healthy } }
+
+  api:
+    <<: *app
+    environment: { <<: *app-env, APP: api }
+    # connector files (also saved from the UI) in, generated collector configs out (#46)
+    volumes: ['../config/connectors:/repo/config/connectors', '../collector:/repo/collector']
+    ports: ['3000:3000']
+    depends_on: &after-migrate
+      migrate: { condition: service_completed_successfully }
+      redis: { condition: service_healthy }
+
+  ingest:
+    <<: *app
+    environment: { <<: *app-env, APP: ingest }
+    # file sources tail the logs demo-systems writes (read-only)
+    volumes: ['demologs:/var/log/demo:ro']
+    ports: ['3001:3001']
+    depends_on:
+      <<: *after-migrate
+      redpanda: { condition: service_healthy }
+
+  worker:
+    <<: *app
+    environment: { <<: *app-env, APP: worker }
+    # edit config/rules/*.yaml on the host → the worker picks it up (B1-15), no rebuild
+    volumes: ['../config/rules:/repo/config/rules']
+    depends_on: *after-migrate
+
+  # Collector for connector files (#46): `--profile collector` (also with `pnpm dev`).
+  # Host networking: listens on COLLECTOR_PORTS directly and reaches ingest on localhost:3001.
+  collector:
+    image: timberio/vector:0.46.1-alpine
+    profiles: [collector, apps]
+    restart: unless-stopped
+    network_mode: host
+    env_file:
+      - path: ../collector/.env
+        required: false
+    volumes:
+      - ./collector/base.yaml:/etc/vector/base.yaml:ro
+      - ../collector/generated:/etc/vector/generated:ro
+    command: ['--config', '/etc/vector/base.yaml', '--config-dir', '/etc/vector/generated', '--watch-config']
+
+  notifier:
+    <<: *app
+    environment: { <<: *app-env, APP: notifier }
+    depends_on: *after-migrate
+
+  demo-systems:
+    <<: *app
+    environment: { <<: *app-env, APP: demo-systems, LOG_DIR: /var/log/demo }
+    ports: ['3002:3002']
+    volumes: ['demologs:/var/log/demo']
+    depends_on:
+      redpanda: { condition: service_healthy }
+
+  web:
+    <<: *app
+    environment: { <<: *app-env, APP: web, API_PROXY: http://api:3000, INGEST_PROXY: http://ingest:3001 }
+    ports: ['5173:5173']
+    depends_on: [api]
+
+volumes:
+  pgdata:
+  demologs:

@@ -1,0 +1,8 @@
+sources:
+  in:
+    type: journald
+transforms:
+  important:
+    type: filter
+    inputs: [in]
+    condition: 'to_int(.PRIORITY) ?? 7 <= 4'

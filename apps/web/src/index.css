@@ -1,0 +1,127 @@
+@import '@fontsource-variable/atkinson-hyperlegible-next';
+@import 'tailwindcss';
+
+/* Tokens: apps/web/DESIGN.md ("Columnar pad"). Palette: Desert Sun #dc9750 + Dark Blue #1e2640. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Atkinson Hyperlegible Next Variable', system-ui, sans-serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 0.875rem;
+  --text-lg: 1rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.8rem;
+
+  --color-paper: var(--paper);
+  --color-sheet: var(--sheet);
+  --color-rule: var(--rule);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-margin: var(--margin);
+  --color-critical: var(--critical);
+  --color-error: var(--error);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
+  /* tight ledger radius — panel 8px, control 6px, chip 4px */
+  --radius-control: 6px;
+  --radius-panel: 8px;
+  --radius-chip: 4px;
+}
+
+:root {
+  /* Light — "Desert Day": warm sand page, navy text, amber accent */
+  --paper: #f4ead8;
+  --sheet: #fdf6ed;
+  --rule: #e0c896;
+  --ink: #1e2640;
+  --ink-soft: #4a5571;
+  --margin: #dc9750;
+  --critical: #b42318;
+  --error: #b5531b;
+  --warning: #7a5f00;
+  --info: #1e4a8a;
+  color-scheme: light;
+
+  /* Spacing and sizing (app-screens §9.5) */
+  --gap: 16px;
+  --card-pad: 20px;
+  --pad: 24px;
+  --nav-row: 32px;
+  --control-height: 32px;
+  --row-height: 48px;
+}
+
+.dark {
+  /* Dark — "Desert Night": navy ground, sand text, amber accent */
+  --paper: #1a2238;
+  --sheet: #1e2640;
+  --rule: #2d3d5c;
+  --ink: #ecd9b8;
+  --ink-soft: #9a8b6a;
+  --margin: #dc9750;
+  --critical: #ff7a6e;
+  --error: #f4a26b;
+  --warning: #e3c35a;
+  --info: #8db7e8;
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 2px solid var(--margin);
+  outline-offset: 2px;
+}
+
+/* The one orchestrated moment: a new alert "inks in". */
+@keyframes ink-row {
+  from {
+    background-color: color-mix(in oklab, var(--sev) 14%, transparent);
+  }
+  to {
+    background-color: transparent;
+  }
+}
+@keyframes ink-mark {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+.ink-in {
+  animation: ink-row 1.2s ease-out;
+}
+.ink-in .ink-mark {
+  transform-origin: top;
+  animation: ink-mark 0.35s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ink-in,
+  .ink-in .ink-mark {
+    animation: none;
+  }
+  * {
+    transition: none !important;
+  }
+}

@@ -1,0 +1,8 @@
+# Przykład: skopiuj do config/connectors/ (poziom wyżej), żeby włączyć.
+connector: firewalle
+system: Pricing
+name: Firewalle (syslog)
+template: syslog
+settings:
+  mode: udp
+  port: 5514

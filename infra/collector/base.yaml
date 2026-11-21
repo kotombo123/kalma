@@ -1,0 +1,10 @@
+# Always-on part of the collector (#46): its own metrics for Prometheus, so Vector starts even before
+# the first connector file exists. Connector configs are generated into collector/generated/ by the API.
+sources:
+  collector_metrics:
+    type: internal_metrics
+sinks:
+  collector_prometheus:
+    type: prometheus_exporter
+    inputs: [collector_metrics]
+    address: 0.0.0.0:9598

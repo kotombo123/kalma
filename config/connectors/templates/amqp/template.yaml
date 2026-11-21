@@ -1,0 +1,5 @@
+title: RabbitMQ (AMQP)
+description: Czytamy wiadomości z kolejki RabbitMQ. Hasło trzymaj w collector/.env i wpisz jako ${RABBIT_PASSWORD}.
+settings:
+  connection: { type: string, label: 'Adres, np. amqp://alerts:${RABBIT_PASSWORD}@rabbit:5672/%2f' }
+  queue: { type: string, label: Kolejka }

@@ -1,0 +1,8 @@
+{
+  "evt": "disk.pressure",
+  "host": { "name": "db-node-7", "dc": "waw-1" },
+  "lvl": "CRIT",
+  "when": 1792834000,
+  "detail": { "usedPct": 97.4, "mount": "/var/lib/postgresql" },
+  "incidentRef": "INC-55120"
+}

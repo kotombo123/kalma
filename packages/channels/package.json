@@ -1,0 +1,23 @@
+{
+  "name": "@alerting/channels",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "eslint src",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "grammy": "^1.30.0",
+    "nodemailer": "^6.9.15"
+  },
+  "devDependencies": {
+    "@alerting/contracts": "workspace:*",
+    "@types/nodemailer": "^6.4.16"
+  }
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+  <type>SETTLEMENT_BATCH_FAILED</type>
+  <batchId>SB-20261023-07</batchId>
+  <priority>HIGH</priority>
+  <occurredAt>2026-10-23T09:20:00Z</occurredAt>
+  <details>
+    <failedCount>14</failedCount>
+    <reason>Ledger unavailable</reason>
+  </details>
+</event>

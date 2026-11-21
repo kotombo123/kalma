@@ -1,0 +1,4 @@
+2026-10-23T09:15:11.002Z WARN [pricing-engine-3] EURUSD quote latency 1240ms above threshold 1000ms
+2026-10-23T09:15:12.417Z WARN [pricing-engine-3] EURUSD quote latency 1310ms above threshold 1000ms
+2026-10-23T09:15:13.020Z ERROR [pricing-engine-1] GBPUSD cache miss storm, falling back to slow path
+2026-10-23T09:15:14.551Z INFO [pricing-engine-2] USDJPY quote published

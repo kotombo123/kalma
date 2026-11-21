@@ -1,0 +1,22 @@
+{
+  "name": "@alerting/schema",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "eslint src",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@alerting/contracts": "workspace:*",
+    "@alerting/templates": "workspace:*"
+  },
+  "devDependencies": {
+    "@alerting/parsing": "workspace:*"
+  }
+}

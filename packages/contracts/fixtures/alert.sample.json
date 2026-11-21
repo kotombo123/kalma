@@ -1,0 +1,46 @@
+{
+  "id": "01HZZACME00000000000000901",
+  "orgId": "01HZZACME00000000000000001",
+  "ruleId": "01HZZACME00000000000000501",
+  "ruleVersion": 1,
+  "teamId": "01HZZACME00000000000000201",
+  "sourceId": "01HZZACME00000000000000402",
+  "schemaId": "01HZZACME00000000000000801",
+  "groupKey": "WF-20261023-00042",
+  "status": "open",
+  "severity": "critical",
+  "title": "order-settlement failed at validate-counterparty",
+  "body": "TIMEOUT: Counterparty service did not respond in 5000 ms",
+  "fields": [
+    { "label": "Step", "value": "validate-counterparty", "highlight": "red" },
+    { "label": "Error", "value": "Counterparty service did not respond in 5000 ms", "highlight": "red" },
+    { "label": "Workflow", "value": "WF-20261023-00042" }
+  ],
+  "count": 1,
+  "firstSeen": "2026-10-23T09:14:02.331Z",
+  "lastSeen": "2026-10-23T09:14:02.331Z",
+  "ingestTs": 1792833242331,
+  "lastEvent": {
+    "raw": {
+      "type": "WORKFLOW_FAILED",
+      "workflowId": "WF-20261023-00042",
+      "workflowName": "order-settlement",
+      "step": "validate-counterparty",
+      "severity": "ERROR",
+      "environment": "prod",
+      "timestamp": "2026-10-23T09:14:02.331Z",
+      "error": { "code": "TIMEOUT", "message": "Counterparty service did not respond in 5000 ms" }
+    },
+    "flat": {
+      "type": "WORKFLOW_FAILED",
+      "workflowId": "WF-20261023-00042",
+      "workflowName": "order-settlement",
+      "step": "validate-counterparty",
+      "severity": "ERROR",
+      "environment": "prod",
+      "timestamp": "2026-10-23T09:14:02.331Z",
+      "error.code": "TIMEOUT",
+      "error.message": "Counterparty service did not respond in 5000 ms"
+    }
+  }
+}

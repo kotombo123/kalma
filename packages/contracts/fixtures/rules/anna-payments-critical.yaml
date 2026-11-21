@@ -1,0 +1,21 @@
+# Appendix B — Anna (personal): critical from payments-api. Channels come from Anna's preferences:
+# critical in hours (08:00–20:00) → telegram (stands in for SMS), off hours → email.
+name: Anna — critical payments-api
+team: payments
+enabled: true
+condition:
+  all:
+    - { field: $severity, op: eq, value: critical }
+    - { field: labels.service, op: eq, value: payments-api }
+presentation:
+  titleTemplate: "{{alertname}} on {{labels.service}} ({{labels.region}})"
+  bodyTemplate: "{{annotations.summary}}"
+  fields:
+    - { label: Region, template: "{{labels.region}}" }
+dedup: { windowSec: 900 }
+routing:
+  targets:
+    - { type: user, email: anna@acme.test }
+runbook: payments-high-error-rate
+autoResolve: { onSourceResolved: true, onRunbookSuccess: false }
+origin: file

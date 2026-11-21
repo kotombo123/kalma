@@ -1,0 +1,2 @@
+title: journald (systemd)
+description: Logi usług systemd z serwera, na którym działa kolektor. Tylko ostrzeżenia i poważniejsze wpisy.

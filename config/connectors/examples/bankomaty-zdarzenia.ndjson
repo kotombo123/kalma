@@ -1,0 +1,6 @@
+{"atm_id":"ATM-WAW-0042","location":"Warszawa, Marszałkowska 104","event":"cash_low","severity":"warning","state":"open","cash_left_pln":3200,"message":"Niski poziom gotówki: zostało 3 200 PLN","occurred_at":"2026-11-21T07:20:00Z"}
+{"atm_id":"ATM-KRK-0107","location":"Kraków, Rynek Główny 12","event":"dispenser_jam","severity":"critical","state":"open","cash_left_pln":48500,"message":"Zacięcie podajnika banknotów, wypłaty wstrzymane","occurred_at":"2026-11-21T07:21:10Z"}
+{"atm_id":"ATM-GDA-0013","location":"Gdańsk, Długa 45","event":"offline","severity":"critical","state":"open","cash_left_pln":22100,"message":"Brak łączności z bankomatem od 5 minut","occurred_at":"2026-11-21T07:22:30Z"}
+{"atm_id":"ATM-WAW-0042","location":"Warszawa, Marszałkowska 104","event":"cash_low","severity":"warning","state":"open","cash_left_pln":1800,"message":"Niski poziom gotówki: zostało 1 800 PLN","occurred_at":"2026-11-21T07:25:00Z"}
+{"atm_id":"ATM-POZ-0058","location":"Poznań, Półwiejska 32","event":"card_reader_error","severity":"error","state":"open","cash_left_pln":31000,"message":"Czytnik kart odrzuca 40% kart","occurred_at":"2026-11-21T07:26:40Z"}
+{"atm_id":"ATM-GDA-0013","location":"Gdańsk, Długa 45","event":"offline","severity":"critical","state":"resolved","cash_left_pln":22100,"message":"Łączność przywrócona","occurred_at":"2026-11-21T07:31:00Z"}

@@ -1,0 +1,23 @@
+# Appendix B — Team Rates: rejected rates trades over 10M → email + UI.
+name: Large rejected rates trades
+team: rates
+enabled: true
+condition:
+  all:
+    - { field: meta.schema, op: glob, value: "trade.rejected.*" }
+    - { field: payload.desk, op: eq, value: rates }
+    - { field: payload.notional, op: gt, value: 10000000 }
+presentation:
+  titleTemplate: "Rejected {{payload.currency}} {{payload.notional}} — {{payload.reason}}"
+  severity: error
+  fields:
+    - { label: Trade, template: "{{payload.tradeId}}" }
+    - { label: Notional, template: "{{payload.notional | number}} {{payload.currency}}", highlight: amber }
+    - { label: Reason, template: "{{payload.reason}}", highlight: red }
+dedup: { keyTemplate: "{{payload.tradeId}}", windowSec: 3600 }
+routing:
+  targets:
+    - { type: team, team: rates }
+  channels: [email, ui]
+autoResolve: { onSourceResolved: false, onRunbookSuccess: false }
+origin: file

@@ -1,0 +1,5 @@
+sources:
+  in:
+    type: amqp
+    connection_string: '{{connection}}'
+    queue: '{{queue}}'

@@ -1,0 +1,26 @@
+# Appendix B — Team Settlements. "Call on-call + SMS": phone/SMS are out of scope, Telegram stands in.
+name: Settlement workflow failures (prod)
+team: settlements
+enabled: true
+condition:
+  all:
+    - { field: type, op: eq, value: WORKFLOW_FAILED }
+    - { field: workflowName, op: eq, value: order-settlement }
+    - { field: environment, op: eq, value: prod }
+presentation:
+  titleTemplate: "{{workflowName}} failed at {{step}}"
+  bodyTemplate: "{{error.code}}: {{error.message}}"
+  severity: critical
+  fields:
+    - { label: Step, template: "{{step}}", highlight: red }
+    - { label: Error, template: "{{error.message}}", highlight: red }
+    - { label: Workflow, template: "{{workflowId}}" }
+dedup: { keyTemplate: "{{workflowId}}", windowSec: 600 }
+routing:
+  targets:
+    - { type: oncall, team: settlements }
+  channels: [ui, telegram, email]
+  escalation: { afterMin: 5, maxLevel: 2 }
+runbook: settlement-timeout
+autoResolve: { onSourceResolved: true, onRunbookSuccess: true }
+origin: file

@@ -1,0 +1,10 @@
+# Zdarzenia z bankomatów: po jednej wiadomości JSON w linii, po TCP na port 5524.
+# Przeciągnij ten plik na ekran (Połączone systemy) albo skopiuj do config/connectors/.
+connector: bankomaty
+system: Bankomaty
+name: Monitoring bankomatów (JSON po TCP)
+template: socket
+settings:
+  mode: tcp
+  port: 5524
+  format: json

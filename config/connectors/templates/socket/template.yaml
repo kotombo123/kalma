@@ -1,0 +1,13 @@
+title: Dowolne linie tekstu po TCP/UDP
+description: System wysyła po jednej wiadomości w linii (JSON albo zwykły tekst) na wskazany port.
+settings:
+  mode: { type: enum, values: [tcp, udp], default: tcp, label: Transport }
+  port: { type: port, default: 5520, label: Port nasłuchu }
+  format:
+    {
+      type: enum,
+      values: [json, bytes],
+      default: json,
+      label: 'Format linii (json albo bytes = zwykły tekst)',
+    }
+example: echo '{"level":"error","message":"Payment gateway timeout"}' | nc -q1 localhost 5520

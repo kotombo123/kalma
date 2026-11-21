@@ -1,0 +1,37 @@
+{
+  "name": "flexible-alerting",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.22.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "db:generate": "pnpm --filter @alerting/db generate",
+    "db:migrate": "pnpm --filter @alerting/db migrate",
+    "seed": "tsx scripts/seed.ts",
+    "seed:history": "tsx scripts/seed-history.ts",
+    "emit-alert": "tsx scripts/emit-alert.ts",
+    "emit-ui-events": "tsx scripts/emit-ui-events.ts",
+    "send-event": "tsx scripts/send-event.ts",
+    "e2e": "pnpm --filter @alerting/e2e e2e"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^22.20.5",
+    "eslint": "^10.15.0",
+    "prettier": "^3.10.1",
+    "tsx": "^4.23.15",
+    "turbo": "^2.11.13",
+    "typescript": "5.9.3",
+    "typescript-eslint": "^8.73.0",
+    "vitest": "^5.1.1"
+  }
+}

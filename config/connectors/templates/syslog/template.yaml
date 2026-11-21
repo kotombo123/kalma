@@ -1,0 +1,6 @@
+title: Syslog (UDP/TCP)
+description: Routery, firewalle i serwery Linux wysyłają logi protokołem syslog.
+settings:
+  mode: { type: enum, values: [udp, tcp], default: udp, label: Transport }
+  port: { type: port, default: 5514, label: Port nasłuchu }
+example: 'logger -n localhost -P 5514 -d "Firewall: dropped 1200 packets from 10.0.0.7"'

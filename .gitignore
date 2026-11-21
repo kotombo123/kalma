@@ -1,0 +1,17 @@
+.board/
+node_modules/
+dist/
+.turbo/
+coverage/
+*.log
+.env
+.env.*
+!.env.example
+playwright-report/
+test-results/
+!packages/contracts/fixtures/**/*.log
+e2e/test-results/
+e2e/playwright-report/
+# connectors (#46): generated collector configs hold API keys; secrets for the collector
+collector/generated/
+collector/.env

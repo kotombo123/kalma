@@ -1,0 +1,22 @@
+# Appendix B — Team Pricing: WARN+ logs from pricing-engine-*, UI only, one alert per instrument per 5 min.
+name: Pricing engine warnings
+team: pricing
+enabled: true
+condition:
+  all:
+    - { field: service, op: glob, value: "pricing-engine-*" }
+    - { field: $severity, op: in, value: [warning, error, critical] }
+presentation:
+  titleTemplate: "{{service}}: {{instrument}} — {{message | truncate:80}}"
+  fields:
+    - { label: Instance, template: "{{service}}" }
+    - { label: Instrument, template: "{{instrument}}", highlight: amber }
+dedup: { windowSec: 300 }
+grouping: { by: [instrument], windowSec: 300 }
+routing:
+  targets:
+    - { type: team, team: pricing }
+  channels: [ui]
+runbook: pricing-latency
+autoResolve: { onSourceResolved: false, onRunbookSuccess: false }
+origin: file

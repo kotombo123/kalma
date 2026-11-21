@@ -1,0 +1,7 @@
+**/node_modules
+**/dist
+.git
+.turbo
+.board
+.env
+e2e/playwright-report

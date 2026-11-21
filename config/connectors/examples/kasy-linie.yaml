@@ -1,0 +1,16 @@
+# Przykład własnej konfiguracji kolektora (bez szablonu). Skopiuj do config/connectors/, żeby włączyć.
+# Dozwolone typy źródeł: COLLECTOR_ALLOWED_SOURCES, porty: COLLECTOR_PORTS. Wysyłkę do Kalmy dokleja system.
+connector: kasy-linie
+system: Payments
+name: Terminale płatnicze (linie JSON po TCP)
+collector:
+  sources:
+    in:
+      type: socket
+      address: 0.0.0.0:5521
+      mode: tcp
+  transforms:
+    only_errors:
+      type: filter
+      inputs: [in]
+      condition: 'contains(string!(.message), "ERROR")'

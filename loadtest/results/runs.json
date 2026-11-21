@@ -1,0 +1,98 @@
+[
+  {
+    "label": "http 1000 req/s × 10 (constant)",
+    "workers": 1,
+    "at": "2026-11-21T04:04:49.000Z",
+    "durationSec": 61,
+    "ingestMsgPerSec": 8594.025563171577,
+    "ingestPeakMsgPerSec": 10008.001600320064,
+    "workerEventsPerSec": 1522.5540653529906,
+    "drainSec": 115,
+    "alertsCreated": 91660.12411286728,
+    "deduplicated": 257768.78865384398,
+    "rejected": 8917.63619435116,
+    "maxLag": 418249,
+    "ingestToWorker": {
+      "p50": 10000,
+      "p99": 10000
+    },
+    "ingestToAlert": {
+      "p50": 10000,
+      "p99": 10000
+    },
+    "http": {
+      "requests": 60001,
+      "reqPerSec": 999.9821499328036,
+      "p50": 1.894166,
+      "p99": 27.703917,
+      "failedPct": 18.709688171863803
+    },
+    "machine": "8 CPU (Apple M2), 8 GB",
+    "chart": "results/2026-11-21T04-04-49-000Z-w1.png",
+    "chartNote": "max 10008 msg/s (left), max p99 10000 ms (right)"
+  },
+  {
+    "label": "http 1000 req/s × 10 (constant)",
+    "workers": 1,
+    "at": "2026-11-21T04:09:31.000Z",
+    "durationSec": 60,
+    "ingestMsgPerSec": 0,
+    "ingestPeakMsgPerSec": 0,
+    "workerEventsPerSec": null,
+    "drainSec": 7,
+    "alertsCreated": null,
+    "deduplicated": null,
+    "rejected": 61838.622344598436,
+    "maxLag": null,
+    "ingestToWorker": {
+      "p50": null,
+      "p99": null
+    },
+    "ingestToAlert": {
+      "p50": null,
+      "p99": null
+    },
+    "http": {
+      "requests": 60001,
+      "reqPerSec": 999.9880989566562,
+      "p50": 0.416667,
+      "p99": 2.18275,
+      "failedPct": 100
+    },
+    "machine": "8 CPU (Apple M2), 8 GB",
+    "chart": "results/2026-11-21T04-09-31-000Z-w1.png",
+    "chartNote": "max 1 msg/s (left), max p99 1 ms (right)"
+  },
+  {
+    "label": "http 1000 req/s × 10 (constant)",
+    "workers": 1,
+    "at": "2026-11-21T04:13:13.000Z",
+    "durationSec": 61,
+    "ingestMsgPerSec": 9851.318882265276,
+    "ingestPeakMsgPerSec": 10054,
+    "workerEventsPerSec": 4486.412220566319,
+    "drainSec": 6,
+    "alertsCreated": 56373.642605498375,
+    "deduplicated": 158746.36056368364,
+    "rejected": null,
+    "maxLag": null,
+    "ingestToWorker": {
+      "p50": null,
+      "p99": null
+    },
+    "ingestToAlert": {
+      "p50": 5000,
+      "p99": 5000
+    },
+    "http": {
+      "requests": 60000,
+      "reqPerSec": 999.9492143793103,
+      "p50": 2.5528955,
+      "p99": 37.13402857999999,
+      "failedPct": 0
+    },
+    "machine": "8 CPU (Apple M2), 8 GB",
+    "chart": "results/2026-11-21T04-13-13-000Z-w1.png",
+    "chartNote": "max 10054 msg/s (left), max p99 5000 ms (right)"
+  }
+]

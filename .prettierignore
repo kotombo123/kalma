@@ -1,0 +1,12 @@
+pnpm-lock.yaml
+**/dist
+**/drizzle/meta
+implementation_plan.md
+docs/spec
+.agents
+.claude
+packages/contracts/fixtures
+README.md
+AGENTS.md
+skills-lock.json
+.github/ISSUE_TEMPLATE

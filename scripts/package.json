@@ -1,0 +1,19 @@
+{
+  "name": "@alerting/scripts",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@alerting/config": "workspace:*",
+    "@alerting/contracts": "workspace:*",
+    "@alerting/db": "workspace:*",
+    "@alerting/runbooks": "workspace:*",
+    "@alerting/schema": "workspace:*",
+    "@node-rs/argon2": "^2.2.2",
+    "yaml": "^2.9.1"
+  }
+}
