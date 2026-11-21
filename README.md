@@ -90,7 +90,7 @@ bash scripts/chaos.sh mailpit stop|start                                 # simul
 bash loadtest/run.sh                                                     # load test → loadtest/RESULTS.md
 ```
 
-## Configuration
+## Configuration:
 
 All variables are documented in `.env.example`. Key optional ones:
 
